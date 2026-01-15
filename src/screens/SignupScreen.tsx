@@ -15,7 +15,7 @@ const SignupScreen = ({ navigation }:any) => {
 
     setLoading(true);
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
@@ -24,11 +24,22 @@ const SignupScreen = ({ navigation }:any) => {
 
     if (error) {
       Alert.alert('Signup Failed', error.message);
-    } else {
-      Alert.alert('Success', 'Account created & logged in successfully');
-     
+      return;
     }
+
+    // 🔥 Force logout if session is created
+    if (data?.session) {
+      await supabase.auth.signOut();
+    }
+
+    Alert.alert(
+      'Success',
+      'Account created successfully. Please login to continue.'
+    );
+
+    navigation.replace('Login'); // ✅ Redirect to Login
   };
+
 
   return (
     <View style={styles.container}>
