@@ -25,8 +25,8 @@ const SignupScreen = ({ navigation }:any) => {
     if (error) {
       Alert.alert('Signup Failed', error.message);
     } else {
-      Alert.alert('Success', 'Account created successfully');
-      navigation.goBack(); // Login screen
+      Alert.alert('Success', 'Account created & logged in successfully');
+     
     }
   };
 
